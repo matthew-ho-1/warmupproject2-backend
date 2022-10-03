@@ -4,21 +4,10 @@ export interface IUser extends Document {
     email: string;
     username: string;
     password: string;
-    about: string;
-    verified: boolean;
-    comics: Types.ObjectId[];
-    stories: Types.ObjectId[];
-    subscriptions: Types.ObjectId[];
-    subscriberCount: number;
-    profilePicture?: string;
-    comicRatings: {
-        id: Types.ObjectId;
-        rating: number;
-    }[];
-    storyRatings: {
-        id: Types.ObjectId;
-        rating: number;
-    }[];
+    games: Types.ObjectId[];
+    human: number;
+    wopr: number;
+    tie: number;
     createdAt: Date;
     updatedAt: Date;
 }
@@ -39,61 +28,17 @@ const userSchema = new Schema<IUser>(
             type: String,
             required: true,
         },
-        about: {
-            type: String,
-            default: "",
+        games: {
+            type: [{type: Schema.Types.ObjectId, ref: "Board"}]
         },
-        verified: {
-            type: Boolean,
-            default: false,
-            required: true,
-        },
-        comics: {
-            type: [{ type: Schema.Types.ObjectId, ref: "Comic" }],
-            required: true,
-        },
-        stories: {
-            type: [{ type: Schema.Types.ObjectId, ref: "Story" }],
-            required: true,
-        },
-        subscriptions: {
-            type: [{ type: Schema.Types.ObjectId, ref: "User" }],
-            required: true,
-        },
-        subscriberCount: {
+        human: {
             type: Number,
-            default: 0,
         },
-        profilePicture: {
-            type: String,
+        wopr: {
+            type: Number,
         },
-        comicRatings: {
-            type: [
-                {
-                    id: {
-                        type: Schema.Types.ObjectId,
-                        ref: "Comic",
-                    },
-                    rating: {
-                        type: Number,
-                    },
-                },
-            ],
-            required: true,
-        },
-        storyRatings: {
-            type: [
-                {
-                    id: {
-                        type: Schema.Types.ObjectId,
-                        ref: "Story",
-                    },
-                    rating: {
-                        type: Number,
-                    },
-                },
-            ],
-            required: true,
+        tie: {
+            type: Number,
         },
     },
     { timestamps: true }

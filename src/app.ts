@@ -5,10 +5,11 @@ import MongoStore from "connect-mongo";
 import mongoSanitize from "express-mongo-sanitize";
 import helmet from "helmet";
 import passport from "./util/passport-config";
-import accountRouter from "./routes/account";
-import comicRouter from "./routes/comic";
-import imageRouter from "./routes/image";
-import storyRouter from "./routes/story";
+import addUserRouter from "./routes/adduser";
+import loginRouter from "./routes/login"
+import logoutRouter from "./routes/logout"
+import verifyRouter from "./routes/verify"
+import tttRouter from "./routes/ttt"
 
 const createApp = (mongo_uri: string, session_secret: string) => {
     const app = express();
@@ -21,7 +22,7 @@ const createApp = (mongo_uri: string, session_secret: string) => {
     app.use(
         session({
             cookie: {
-                domain: process.env.ENV === "production" ? ".zomp.works" : "localhost"
+                domain: process.env.ENV === "production" ? ".zomp.cse356.compas.cs.stonybrook.edu" : "localhost"
             },
             resave: true,
             saveUninitialized: true,
@@ -39,10 +40,24 @@ const createApp = (mongo_uri: string, session_secret: string) => {
         next();
     });
 
-    app.use("/account", accountRouter);
-    app.use("/comic", comicRouter);
-    app.use("/image", imageRouter);
-    app.use("/story", storyRouter);
+    //adduser
+    app.use("/adduser", addUserRouter)
+    //verify
+    app.use("/verify", verifyRouter)
+    //login
+    app.use("/login", loginRouter)
+    //logout
+    app.use("/logout", logoutRouter)
+    //ttt/play
+    app.use('/ttt', tttRouter)
+    //listgame
+    //getgame
+    //getscore
+
+    // app.use("/account", accountRouter);
+    // app.use("/comic", comicRouter);
+    // app.use("/image", imageRouter);
+    // app.use("/story", storyRouter);
 
     app.get("/", (req, res) => {
         res.send("Hello world!");
