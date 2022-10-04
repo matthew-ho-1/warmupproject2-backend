@@ -8,7 +8,6 @@ const router = express.Router();
 // VERIFY EMAIL
 router.get("/", async (req:any, res:any, next:any) => {
     const { email, key } = req.query;
-        
     if (!email || !key) {
         res.status(200).json({ status: "ERROR"});
         return next();

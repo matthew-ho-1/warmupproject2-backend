@@ -33,7 +33,7 @@ router.post("/", async (req, res, next) => {
 
         if (existingUser) {
             res.status(200).json({
-                error: "Account with that email address and/or username already exists.", status: "ERROR"
+                status: "ERROR"
             });
             return next();
         }
@@ -44,10 +44,13 @@ router.post("/", async (req, res, next) => {
             email,
             username,
             password: hashedPassword,
+            human: 0,
+            wopr: 0,
+            tie: 0,
         });
         await user.save();
         await sendVerifyEmail(user);
-        res.status(200).json({ message: "Registered Successfully!", status: "OK" })
+        res.status(200).json({ status: "OK" })
         return next();
 });
 

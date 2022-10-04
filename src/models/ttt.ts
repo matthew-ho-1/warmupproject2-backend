@@ -3,10 +3,10 @@ import { Model, Document, Types, Schema, model } from "mongoose";
 export interface IBoard extends Document {
     user: string;
     grid: string[];
-    moves: number[];
     winner: string; 
     updatedAt: Date;
     createdAt: Date;
+    completed: boolean;
     publishedAt?: Date;
 }
 
@@ -18,8 +18,8 @@ const boardSchema = new Schema<IBoard>(
         grid: {
             type: [String],
         },
-        moves: {
-            type: [Number],
+        completed:{
+            type: Boolean,
         },
         winner: {
             type: String,

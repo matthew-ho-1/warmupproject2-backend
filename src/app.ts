@@ -10,10 +10,12 @@ import loginRouter from "./routes/login"
 import logoutRouter from "./routes/logout"
 import verifyRouter from "./routes/verify"
 import tttRouter from "./routes/ttt"
+import getGameRouter from "./routes/getgame"
+import getScoreRouter from "./routes/getscore"
+import listGamesRouter from "./routes/listgames"
 
 const createApp = (mongo_uri: string, session_secret: string) => {
     const app = express();
-
     app.use(cors({ origin: true, credentials: true }));
     app.use(helmet());
     app.use(express.json());
@@ -22,7 +24,7 @@ const createApp = (mongo_uri: string, session_secret: string) => {
     app.use(
         session({
             cookie: {
-                domain: process.env.ENV === "production" ? ".zomp.cse356.compas.cs.stonybrook.edu" : "localhost"
+                domain: ".zomp.cse356.compas.cs.stonybrook.edu",
             },
             resave: true,
             saveUninitialized: true,
@@ -51,13 +53,11 @@ const createApp = (mongo_uri: string, session_secret: string) => {
     //ttt/play
     app.use('/ttt', tttRouter)
     //listgame
+    app.use('/listgames', listGamesRouter)
     //getgame
+    app.use('/getgame', getGameRouter)
     //getscore
-
-    // app.use("/account", accountRouter);
-    // app.use("/comic", comicRouter);
-    // app.use("/image", imageRouter);
-    // app.use("/story", storyRouter);
+    app.use('/getscore', getScoreRouter)
 
     app.get("/", (req, res) => {
         res.send("Hello world!");
